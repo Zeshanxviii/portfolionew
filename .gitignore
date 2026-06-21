@@ -1,6 +1,9 @@
 # build output
 dist/
 
+# next.js cache (leftover)
+.next/
+
 # generated types
 .astro/
 
