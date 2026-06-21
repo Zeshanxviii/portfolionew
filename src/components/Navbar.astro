@@ -7,38 +7,27 @@ export interface Props {
 
 const { locale } = Astro.props;
 const t = useTrans(locale);
-const currentPage = Astro.url.pathname;
 const locales = ['en', 'es', 'ja', 'zh'];
-// hi, ur, ar temporarily disabled
 const currentIndex = locales.indexOf(locale);
 const otherLocale = locales[(currentIndex + 1) % locales.length];
 
 const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
-const prefix = `${base}${locale}`;
-
-const links = [
-  { href: `${prefix}/`, label: t('nav.home') as string },
-  { href: `${prefix}/blog`, label: t('nav.blog') as string },
-  { href: `${prefix}/contact`, label: t('nav.contact') as string },
-];
 ---
 
 <nav>
   <div class="container">
-    <div class="right" style="margin-left: auto;">
+    <a href="#hero" class="logo">Zeeshan</a>
+    <div class="right">
       <button class="hamburger" id="hamburger" aria-label="Menu">
         <span class="bar"></span>
         <span class="bar"></span>
         <span class="bar"></span>
       </button>
       <ul class="nav-links" id="navLinks">
-        {links.map((link) => (
-          <li>
-            <a href={link.href} class:list={{ active: currentPage === link.href }}>
-              {link.label}
-            </a>
-          </li>
-        ))}
+        <li><a href="#about">{t('nav.about') as string}</a></li>
+        <li><a href="#experience">{t('nav.experience') as string}</a></li>
+        <li><a href="#projects">{t('nav.projects') as string}</a></li>
+        <li><a href="#contact">{t('nav.contact') as string}</a></li>
       </ul>
       <a href={`${base}${otherLocale}/`} class="lang-switcher">
         {t(`langSwitcher.${otherLocale}`) as string}
@@ -69,8 +58,10 @@ const links = [
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 100;
     transition: background-color 0.3s ease, border-color 0.3s ease;
   }
@@ -85,6 +76,17 @@ const links = [
     height: 72px;
   }
 
+  .logo {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .logo:hover {
+    color: var(--accent);
+  }
+
   .right {
     display: flex;
     align-items: center;
@@ -94,7 +96,7 @@ const links = [
   .nav-links {
     list-style: none;
     display: flex;
-    gap: 2.5rem;
+    gap: 2rem;
     margin: 0;
     padding: 0;
   }
@@ -103,31 +105,9 @@ const links = [
     font-size: 0.95rem;
     font-weight: 500;
     color: var(--text-secondary);
-    padding: 0.5rem 0;
-    position: relative;
+    text-decoration: none;
+    padding: 0.3rem 0;
     transition: color 0.3s ease;
-  }
-
-  .nav-links a::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: var(--accent);
-    transition: width 0.3s ease;
-    border-radius: 2px;
-  }
-
-  .nav-links a:hover::after,
-  .nav-links a.active::after {
-    width: 100%;
-  }
-
-  .nav-links a.active {
-    color: var(--text);
-    font-weight: 600;
   }
 
   .nav-links a:hover {
@@ -143,6 +123,7 @@ const links = [
     border-radius: 8px;
     transition: all 0.3s ease;
     background: transparent;
+    text-decoration: none;
   }
 
   .lang-switcher:hover {
@@ -171,21 +152,11 @@ const links = [
     background: var(--bg-secondary);
   }
 
-  .sun-icon {
-    display: none;
-  }
+  .sun-icon { display: none; }
+  .moon-icon { display: block; }
 
-  .moon-icon {
-    display: block;
-  }
-
-  [data-theme="dark"] .sun-icon {
-    display: block;
-  }
-
-  [data-theme="dark"] .moon-icon {
-    display: none;
-  }
+  [data-theme="dark"] .sun-icon { display: block; }
+  [data-theme="dark"] .moon-icon { display: none; }
 
   .hamburger {
     display: none;
@@ -208,26 +179,13 @@ const links = [
     transition: transform 0.3s ease, opacity 0.3s ease;
   }
 
-  .hamburger.open .bar:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
-  }
-
-  .hamburger.open .bar:nth-child(2) {
-    opacity: 0;
-  }
-
-  .hamburger.open .bar:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
-  }
+  .hamburger.open .bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open .bar:nth-child(2) { opacity: 0; }
+  .hamburger.open .bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
   @media (max-width: 768px) {
-    .right {
-      gap: 0.75rem;
-    }
-
-    .hamburger {
-      display: flex;
-    }
+    .right { gap: 0.75rem; }
+    .hamburger { display: flex; }
 
     .nav-links {
       display: none;
@@ -244,13 +202,8 @@ const links = [
       padding: 0.5rem 0;
     }
 
-    .nav-links.open {
-      display: flex;
-    }
-
-    .nav-links li {
-      width: 100%;
-    }
+    .nav-links.open { display: flex; }
+    .nav-links li { width: 100%; }
 
     .nav-links a {
       display: block;
@@ -258,13 +211,7 @@ const links = [
       font-size: 1rem;
     }
 
-    .nav-links a::after {
-      display: none;
-    }
-
-    .nav-links a.active {
-      background: var(--bg-secondary);
-    }
+    .nav-links a:hover { background: var(--bg-secondary); }
 
     .lang-switcher {
       font-size: 0.8rem;

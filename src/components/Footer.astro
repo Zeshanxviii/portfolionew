@@ -1,8 +1,5 @@
 ---
 import { useTrans } from '../i18n';
-import GithubIcon from './icons/GithubIcon.astro';
-import LinkedinIcon from './icons/LinkedinIcon.astro';
-import MailIcon from './icons/MailIcon.astro';
 
 export interface Props {
   locale: string;
@@ -15,18 +12,13 @@ const year = new Date().getFullYear();
 
 <footer>
   <div class="container">
+    <ul class="nav-links">
+      <li><a href="#about">{t('nav.about') as string}</a></li>
+      <li><a href="#experience">{t('nav.experience') as string}</a></li>
+      <li><a href="#projects">{t('nav.projects') as string}</a></li>
+      <li><a href="#contact">{t('nav.contact') as string}</a></li>
+    </ul>
     <p>&copy; {year} Zeeshan. {t('footer.copyright')}</p>
-    <div class="social-links">
-      <a href="https://github.com/zeeshan" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-        <GithubIcon size={20} />
-      </a>
-      <a href="https://linkedin.com/in/zeeshan" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-        <LinkedinIcon size={20} />
-      </a>
-      <a href="mailto:zeeshan@example.com" aria-label="Email">
-        <MailIcon size={20} />
-      </a>
-    </div>
   </div>
 </footer>
 
@@ -35,7 +27,6 @@ const year = new Date().getFullYear();
     background: var(--bg-secondary);
     border-top: 1px solid var(--border);
     padding: 2rem 0;
-    margin-top: 4rem;
   }
 
   .container {
@@ -43,32 +34,46 @@ const year = new Date().getFullYear();
     margin: 0 auto;
     padding: 0 1.5rem;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 1rem;
+    gap: 1.25rem;
+  }
+
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-links a {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .nav-links a:hover {
+    color: var(--accent);
   }
 
   p {
     margin: 0;
     color: var(--text-secondary);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
   }
 
-  .social-links {
-    display: flex;
-    gap: 1rem;
-  }
+  @media (max-width: 768px) {
+    .nav-links {
+      gap: 1.25rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
 
-  .social-links a {
-    display: flex;
-    align-items: center;
-    color: var(--text-secondary);
-    transition: color 0.3s ease, transform 0.3s ease;
-  }
-
-  .social-links a:hover {
-    color: var(--accent);
-    transform: translateY(-2px);
+    .nav-links a {
+      font-size: 0.85rem;
+    }
   }
 </style>

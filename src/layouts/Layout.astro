@@ -69,13 +69,13 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
 
   :root,
   [data-theme="light"] {
-    --bg: #FAFAFB;
+    --bg: #F9FAFB;
     --bg-secondary: #FFFFFF;
-    --text: #0F172A;
-    --text-secondary: #475569;
-    --accent: #2563EB;
-    --accent-light: #60A5FA;
-    --border: #E2E8F0;
+    --text: #111827;
+    --text-secondary: #6B7280;
+    --accent: #6B7280;
+    --accent-light: #9CA3AF;
+    --border: #E5E7EB;
     --card-bg: #FFFFFF;
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -87,36 +87,36 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
   }
 
   [data-theme="dark"] {
-    --bg: #0F172A;
-    --bg-secondary: #1E293B;
-    --text: #F8FAFC;
-    --text-secondary: #94A3B8;
-    --accent: #3B82F6;
-    --accent-light: #93C5FD;
-    --border: #334155;
-    --card-bg: #1E293B;
+    --bg: #111827;
+    --bg-secondary: #1F2937;
+    --text: #F9FAFB;
+    --text-secondary: #9CA3AF;
+    --accent: #9CA3AF;
+    --accent-light: #D1D5DB;
+    --border: #374151;
+    --card-bg: #1F2937;
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
     --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
     --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
     --shadow-hover: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
-    --nav-bg: rgba(15, 23, 42, 0.85);
+    --nav-bg: rgba(17, 24, 39, 0.85);
   }
 
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme]) {
-      --bg: #0F172A;
-      --bg-secondary: #1E293B;
-      --text: #F8FAFC;
-      --text-secondary: #94A3B8;
-      --accent: #3B82F6;
-      --accent-light: #93C5FD;
-      --border: #334155;
-      --card-bg: #1E293B;
+      --bg: #111827;
+      --bg-secondary: #1F2937;
+      --text: #F9FAFB;
+      --text-secondary: #9CA3AF;
+      --accent: #9CA3AF;
+      --accent-light: #D1D5DB;
+      --border: #374151;
+      --card-bg: #1F2937;
       --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
       --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
       --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
       --shadow-hover: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
-      --nav-bg: rgba(15, 23, 42, 0.85);
+      --nav-bg: rgba(17, 24, 39, 0.85);
     }
   }
 
