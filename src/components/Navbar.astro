@@ -1,0 +1,197 @@
+---
+import { useTrans } from '../i18n';
+
+export interface Props {
+  locale: string;
+}
+
+const { locale } = Astro.props;
+const t = useTrans(locale);
+const currentPage = Astro.url.pathname;
+const locales = ['en', 'es', 'hi', 'ur', 'ar', 'ja', 'zh'];
+const currentIndex = locales.indexOf(locale);
+const otherLocale = locales[(currentIndex + 1) % locales.length];
+
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+const prefix = `${base}${locale}`;
+
+const links = [
+  { href: `${prefix}/`, label: t('nav.home') as string },
+  { href: `${prefix}/blog`, label: t('nav.blog') as string },
+  { href: `${prefix}/contact`, label: t('nav.contact') as string },
+];
+---
+
+<nav>
+  <div class="container">
+    <div class="right" style="margin-left: auto;">
+      <ul class="nav-links">
+        {links.map((link) => (
+          <li>
+            <a href={link.href} class:list={{ active: currentPage === link.href }}>
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+      <a href={`${base}${otherLocale}/`} class="lang-switcher">
+        {t(`langSwitcher.${otherLocale}`) as string}
+      </a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <svg class="theme-icon sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="theme-icon moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<style>
+  nav {
+    background: var(--nav-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+  }
+
+  .right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 2.5rem;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-links a {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    padding: 0.5rem 0;
+    position: relative;
+    transition: color 0.3s ease;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent);
+    transition: width 0.3s ease;
+    border-radius: 2px;
+  }
+
+  .nav-links a:hover::after,
+  .nav-links a.active::after {
+    width: 100%;
+  }
+
+  .nav-links a.active {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .nav-links a:hover {
+    color: var(--text);
+  }
+
+  .lang-switcher {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    padding: 0.4rem 0.85rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    background: transparent;
+  }
+
+  .lang-switcher:hover {
+    color: var(--text);
+    border-color: var(--text);
+    background: var(--bg-secondary);
+  }
+
+  .theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.4rem;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
+    line-height: 0;
+  }
+
+  .theme-toggle:hover {
+    color: var(--text);
+    border-color: var(--text);
+    background: var(--bg-secondary);
+  }
+
+  .sun-icon {
+    display: none;
+  }
+
+  .moon-icon {
+    display: block;
+  }
+
+  [data-theme="dark"] .sun-icon {
+    display: block;
+  }
+
+  [data-theme="dark"] .moon-icon {
+    display: none;
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById('themeToggle');
+  const html = document.documentElement;
+
+  if (toggle) {
+    toggle.addEventListener('click', () => {
+      const current = html.getAttribute('data-theme') || 'light';
+      const next = current === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    });
+  }
+</script>

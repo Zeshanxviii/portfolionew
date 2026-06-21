@@ -1,0 +1,209 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import AchievementCard from '../../components/AchievementCard.astro';
+import { useTrans } from '../../i18n';
+
+export function getStaticPaths() {
+  return [{ params: { locale: 'en' } }, { params: { locale: 'es' } }, { params: { locale: 'hi' } }, { params: { locale: 'ur' } }, { params: { locale: 'ar' } }, { params: { locale: 'ja' } }, { params: { locale: 'zh' } }];
+}
+
+const locale = Astro.params.locale || 'en';
+const t = useTrans(locale);
+const projects = t('projects.items') as {
+  title: string; description: string; tech: string[]; liveUrl?: string; repoUrl?: string;
+}[];
+const achievements = t('achievements.items') as {
+  title: string; date: string; description: string; url?: string;
+}[];
+const projectLabels = { liveDemo: t('projects.liveDemo') as string, sourceCode: t('projects.sourceCode') as string };
+const certLabel = t('achievements.viewCertificate') as string;
+---
+
+<Layout title="Zeeshan — Portfolio" description="Full-stack developer portfolio" locale={locale}>
+  <section class="hero">
+    <div class="hero-content">
+      <p class="greeting">{t('hero.greeting') as string}</p>
+      <h1>{t('hero.name') as string}</h1>
+      <p class="tagline">{t('hero.tagline') as string}</p>
+      <p class="bio">{t('hero.bio') as string}</p>
+      <div class="cta-buttons">
+        <a href="#projects" class="btn btn-primary">{t('hero.ctaProjects') as string}</a>
+        <a href="#achievements" class="btn btn-secondary">{t('hero.ctaAchievements') as string}</a>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="section section-alt" id="projects">
+    <div class="container">
+      <h2 class="section-title">{t('projects.title') as string}</h2>
+      <div class="projects-grid">
+        {projects.map((p) => <ProjectCard {...p} labels={projectLabels} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="achievements">
+    <div class="container">
+      <h2 class="section-title">{t('achievements.title') as string}</h2>
+      <div class="timeline">
+        {achievements.map((a) => <AchievementCard {...a} label={certLabel} />)}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .hero {
+    padding: 8rem 1.5rem 6rem;
+    text-align: center;
+    background: radial-gradient(circle at top, var(--bg-secondary) 0%, var(--bg) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.05) 0%, transparent 50%);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .hero-content {
+    max-width: 700px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .greeting {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0 0 0.5rem;
+  }
+
+  h1 {
+    font-size: 4rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin: 0 0 1rem;
+    background: linear-gradient(135deg, var(--text), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  [data-theme="dark"] h1 {
+    background: linear-gradient(135deg, #FFFFFF, var(--accent-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .tagline {
+    font-size: 1.35rem;
+    font-weight: 500;
+    color: var(--text);
+    margin: 0 0 1rem;
+  }
+
+  .bio {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin: 0 0 2.5rem;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    padding: 0.85rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  .btn-primary:hover {
+    background: var(--accent-light);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+
+  .btn-secondary {
+    background: var(--card-bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+
+  .btn-secondary:hover {
+    background: var(--bg-secondary);
+    border-color: var(--text-secondary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+
+  .section {
+    padding: 6rem 1.5rem;
+  }
+
+  .section-alt {
+    background: var(--bg-secondary);
+  }
+
+  .container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .section-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    text-align: center;
+    margin: 0 0 3rem;
+    position: relative;
+  }
+
+  .section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: var(--accent);
+    margin: 0.75rem auto 0;
+    border-radius: 2px;
+  }
+
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .timeline {
+    max-width: 650px;
+    margin: 0 auto;
+  }
+</style>
