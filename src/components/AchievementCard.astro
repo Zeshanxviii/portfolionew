@@ -121,4 +121,27 @@ const { title, date, description, url, label } = Astro.props;
     box-shadow: var(--shadow-sm);
     transform: translateY(-1px);
   }
+
+  @media (max-width: 768px) {
+    .timeline-item {
+      padding-left: 1.5rem;
+    }
+
+    .content {
+      padding: 1rem;
+      padding-bottom: 2rem;
+    }
+
+    h3 {
+      font-size: 1.1rem;
+    }
+
+    .date {
+      font-size: 0.8rem;
+    }
+
+    p {
+      font-size: 0.95rem;
+    }
+  }
 </style>

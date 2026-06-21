@@ -135,4 +135,27 @@ const { title, description, tech, liveUrl, repoUrl, labels } = Astro.props;
     border-color: var(--text-secondary);
     box-shadow: var(--shadow-sm);
   }
+
+  @media (max-width: 768px) {
+    .content {
+      padding: 1.25rem;
+    }
+
+    h3 {
+      font-size: 1.2rem;
+    }
+
+    .tech-stack {
+      gap: 0.5rem;
+    }
+
+    .links {
+      flex-direction: column;
+    }
+
+    .btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
 </style>

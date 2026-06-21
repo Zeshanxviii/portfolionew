@@ -25,7 +25,12 @@ const links = [
 <nav>
   <div class="container">
     <div class="right" style="margin-left: auto;">
-      <ul class="nav-links">
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
         {links.map((link) => (
           <li>
             <a href={link.href} class:list={{ active: currentPage === link.href }}>
@@ -180,18 +185,120 @@ const links = [
   [data-theme="dark"] .moon-icon {
     display: none;
   }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.3rem;
+    margin-right: 0.5rem;
+  }
+
+  .bar {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--text-secondary);
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  .hamburger.open .bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .hamburger.open .bar:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger.open .bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  @media (max-width: 768px) {
+    .right {
+      gap: 0.75rem;
+    }
+
+    .hamburger {
+      display: flex;
+    }
+
+    .nav-links {
+      display: none;
+      position: absolute;
+      top: 72px;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      gap: 0;
+      background: var(--nav-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.5rem 0;
+    }
+
+    .nav-links.open {
+      display: flex;
+    }
+
+    .nav-links li {
+      width: 100%;
+    }
+
+    .nav-links a {
+      display: block;
+      padding: 0.85rem 1.5rem;
+      font-size: 1rem;
+    }
+
+    .nav-links a::after {
+      display: none;
+    }
+
+    .nav-links a.active {
+      background: var(--bg-secondary);
+    }
+
+    .lang-switcher {
+      font-size: 0.8rem;
+      padding: 0.35rem 0.7rem;
+    }
+  }
 </style>
 
 <script>
-  const toggle = document.getElementById('themeToggle');
+  const themeToggle = document.getElementById('themeToggle');
   const html = document.documentElement;
 
-  if (toggle) {
-    toggle.addEventListener('click', () => {
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
       const current = html.getAttribute('data-theme') || 'light';
       const next = current === 'dark' ? 'light' : 'dark';
       html.setAttribute('data-theme', next);
       localStorage.setItem('theme', next);
+    });
+  }
+
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+
+  if (hamburger && navLinks) {
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      navLinks.classList.toggle('open');
+    });
+
+    navLinks.addEventListener('click', (e) => {
+      if (e.target.tagName === 'A') {
+        hamburger.classList.remove('open');
+        navLinks.classList.remove('open');
+      }
     });
   }
 </script>

@@ -206,4 +206,63 @@ const certLabel = t('achievements.viewCertificate') as string;
     max-width: 650px;
     margin: 0 auto;
   }
+
+  @media (max-width: 768px) {
+    .hero {
+      padding: 5rem 1.25rem 3rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+    }
+
+    .tagline {
+      font-size: 1.1rem;
+    }
+
+    .bio {
+      font-size: 1rem;
+    }
+
+    .section {
+      padding: 3rem 1.25rem;
+    }
+
+    .projects-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero {
+      padding: 4rem 1rem 2.5rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+    }
+
+    .greeting {
+      font-size: 0.95rem;
+    }
+
+    .tagline {
+      font-size: 1rem;
+    }
+
+    .cta-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .btn {
+      width: 100%;
+      max-width: 280px;
+      text-align: center;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+    }
+  }
 </style>
