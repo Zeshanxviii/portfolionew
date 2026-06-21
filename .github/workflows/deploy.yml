@@ -15,12 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-      - run: npm install
-      - run: npm run build
+      - run: npm --version && node --version
+      - run: npm install 2>&1
+      - run: npm run build 2>&1
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist/
